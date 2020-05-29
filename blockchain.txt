@@ -1,0 +1,88 @@
+/*
+  TITLE:IMPLEMENT AND ANALYZE BLOCKCHAIN TECHNOLOGY USING JAVA
+  STUDENT 1:TANYA CHETNA VAISH
+  UNIVERSITY ROLL NO:2013553
+  SECTION:ML
+  STUDENT 2:TANMAY UNIYAL
+  UNIVERSITY ROLL NO:2013549
+  SECTION:ML
+  DATE:13/12/19
+*/
+package blockchain;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Blockchain 
+{
+
+	private List<Block> chain; //creating a list with name chain
+	//the first block in blockchain is called the genesis block
+	
+	public Blockchain()  
+	{
+		chain = new ArrayList<Block>();
+		chain.add(createGenesis());
+	}
+	
+	private Block createGenesis() {
+		Block genesis = new Block("27834ty", new java.util.Date(), "<transactions>");//putting data into the genesis block
+		genesis.setPreviousHash(null); //setting the previousHash of the block to null
+		genesis.calculateHash();//calling the function from Block.java to calculate Hash
+		return genesis;
+	}
+	
+	public void addBlock(Block b) //function to add blocks to blockchain
+	{
+		Block newBlock = b;
+		newBlock.setPreviousHash(chain.get(chain.size()-1).getHash()); //setting previousHash of blocks from 2nd block onwards to the Hash of previous block
+		newBlock.calculateHash();
+		this.chain.add(newBlock); //adding the block to chain
+	}
+	
+	public void displayChain() 
+	{
+		//loop to iterate through blocks and display content respectively
+		for(int i=0; i<chain.size(); i++) 
+		{
+			System.out.println("Block: " + i);
+			System.out.println("Version: " + chain.get(i).getVersion());
+			System.out.println("Timestamp: " + chain.get(i).getTimestamp());
+			System.out.println("PreviousHash: " + chain.get(i).getPreviousHash());
+			System.out.println("Hash: " + chain.get(i).getHash());
+			System.out.println(); //to change line
+		}
+		
+	}
+	
+	public Block getLatestBlock() 
+	{   
+		//to get index of the last added block
+		return this.chain.get(chain.size()-1);
+	}
+	
+	public void isValid() 
+	{
+		//to check if the blockchain is valid
+		//chain is invalid if the data in the block is tampered
+		for(int i=chain.size()-1; i>0; i--) 
+		{
+			if(   !(chain.get(i).getHash().equals(chain.get(i).calculateHash()))   ) 
+			{
+				System.out.println("Chain is not valid");
+				return;
+			}
+			
+			if(  !(chain.get(i).getPreviousHash().equals(chain.get(i-1).calculateHash()))  ) 
+			{
+				System.out.println("Chain is not valid");
+				return;
+			}
+		}
+		
+		System.out.println("Chain is valid.");
+		
+	}
+	
+	
+}

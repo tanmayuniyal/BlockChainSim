@@ -1,0 +1,122 @@
+/*
+  TITLE:IMPLEMENT AND ANALYZE BLOCKCHAIN TECHNOLOGY USING JAVA
+  STUDENT 1:TANYA CHETNA VAISH
+  UNIVERSITY ROLL NO:2013553
+  SECTION:ML
+  STUDENT 2:TANMAY UNIYAL
+  UNIVERSITY ROLL NO:2013549
+  SECTION:ML
+  DATE:13/12/19
+*/
+  
+   
+package blockchain;
+ 
+
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest; //this class is used under the package java.security
+import java.security.NoSuchAlgorithmException; //This exception is thrown when a particular cryptographic algorithm is requested but is not available in the environment
+import java.util.Base64;
+import java.util.Date;
+
+public class Block 
+{
+
+	private String version; //stores version
+	private Date Timestamp; //stores date and time of any transaction or creation of the corresponding block
+	private String hash; //it contains encoded data
+	private String previousHash; //stored of the previous block
+	private String data; 
+	
+	public Block(String version, Date timestamp, String data) //constructor to create parts of a block
+	{
+		this.version = version; //'this' keyword used to refer current instance class variables
+		this.Timestamp = timestamp;
+		this.data = data;
+		this.hash = calculateHash(); //computing hash by calling computeHash() function
+	}
+	
+	public String calculateHash() //computes hash using SHA-256 and BASE 64 algorithm
+	{
+		
+		String dataToHash = "" + this.version + this.Timestamp + this.previousHash + this.data;
+		
+		MessageDigest digest;
+		String changed = null;
+		//using Exception Handling
+		try  
+		{
+			//Static getInstance method is called with hashing SHA
+			//After digest has been called, the MessageDigestobject is reset to its initialized state. 
+			digest = MessageDigest.getInstance("SHA-256");
+			//digest() method called
+			//to calculate message digest of an input
+			//and return array of bytes
+			byte[] hash = digest.digest(dataToHash.getBytes(StandardCharsets.UTF_8));
+			//BASE64 is a binary-to-text ecoding schema
+			changed = Base64.getEncoder().encodeToString(hash);
+		} 
+		catch (NoSuchAlgorithmException e) 
+		{
+			e.printStackTrace();
+		}
+		
+		this.hash = changed;
+		return changed;
+		
+	}
+//setting getters and setters for the code 
+	public String getVersion() 
+	{
+		return version;
+	}
+
+	public void setVersion(String version) 
+	{
+		this.version = version;
+	}
+
+	public Date getTimestamp() 
+	{
+		return Timestamp;
+	}
+
+	public void setTimestamp(Date timestamp) 
+	{
+		Timestamp = timestamp;
+	}
+
+	public String getHash() 
+	{
+		
+		return hash;
+	}
+
+	public void setHash(String hash) 
+	{
+		this.hash = hash;
+	}
+
+	public String getPreviousHash() 
+	{
+		return previousHash;
+	}
+
+	public void setPreviousHash(String previousHash) 
+	{
+		this.previousHash = previousHash;
+	}
+
+	public String getData() 
+	{
+		return data;
+	}
+
+	public void setData(String data) 
+	{
+		this.data = data;
+	}
+	
+	
+	
+}

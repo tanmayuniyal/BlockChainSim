@@ -1,0 +1,44 @@
+/*
+  TITLE:IMPLEMENT AND ANALYZE BLOCKCHAIN TECHNOLOGY USING JAVA
+  STUDENT 1:TANYA CHETNA VAISH
+  UNIVERSITY ROLL NO:2013553
+  SECTION:ML
+  STUDENT 2:TANMAY UNIYAL
+  UNIVERSITY ROLL NO:2013549
+  SECTION:ML
+  DATE:13/12/19
+*/
+package blockchain;
+
+public class Test 
+{
+
+	public static void main(String args[]) 
+	{
+		
+		Blockchain obj = new Blockchain();
+		
+		Block a = new Block("1234sr", new java.util.Date(), "<transactions>");
+		Block b = new Block("4567ty", new java.util.Date(), "<transactions>");
+		Block c = new Block("7890rt", new java.util.Date(), "<transactions>");
+		Block d=  new Block("3456hu", new java.util.Date(), "<transactions>");
+		Block e=  new Block("2345ty", new java.util.Date(), "<transactions>");
+		
+		//adding block to blockchain
+		
+		obj.addBlock(a);
+		obj.addBlock(b);
+		obj.addBlock(c);
+		obj.addBlock(d);
+		obj.addBlock(e);
+		
+		//this is the tampering of previous hash that we have done in the block
+		//obj.getLatestBlock().setPreviousHash("ABCDEFG");
+		
+		obj.displayChain();
+		
+		//obj.isValid();//this checks for the validity of the chain
+
+	}
+	
+}
