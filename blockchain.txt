@@ -10,79 +10,35 @@
 */
 package blockchain;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class Blockchain 
+public class Test 
 {
 
-	private List<Block> chain; //creating a list with name chain
-	//the first block in blockchain is called the genesis block
-	
-	public Blockchain()  
+	public static void main(String args[]) 
 	{
-		chain = new ArrayList<Block>();
-		chain.add(createGenesis());
-	}
-	
-	private Block createGenesis() {
-		Block genesis = new Block("27834ty", new java.util.Date(), "<transactions>");//putting data into the genesis block
-		genesis.setPreviousHash(null); //setting the previousHash of the block to null
-		genesis.calculateHash();//calling the function from Block.java to calculate Hash
-		return genesis;
-	}
-	
-	public void addBlock(Block b) //function to add blocks to blockchain
-	{
-		Block newBlock = b;
-		newBlock.setPreviousHash(chain.get(chain.size()-1).getHash()); //setting previousHash of blocks from 2nd block onwards to the Hash of previous block
-		newBlock.calculateHash();
-		this.chain.add(newBlock); //adding the block to chain
-	}
-	
-	public void displayChain() 
-	{
-		//loop to iterate through blocks and display content respectively
-		for(int i=0; i<chain.size(); i++) 
-		{
-			System.out.println("Block: " + i);
-			System.out.println("Version: " + chain.get(i).getVersion());
-			System.out.println("Timestamp: " + chain.get(i).getTimestamp());
-			System.out.println("PreviousHash: " + chain.get(i).getPreviousHash());
-			System.out.println("Hash: " + chain.get(i).getHash());
-			System.out.println(); //to change line
-		}
 		
-	}
-	
-	public Block getLatestBlock() 
-	{   
-		//to get index of the last added block
-		return this.chain.get(chain.size()-1);
-	}
-	
-	public void isValid() 
-	{
-		//to check if the blockchain is valid
-		//chain is invalid if the data in the block is tampered
-		for(int i=chain.size()-1; i>0; i--) 
-		{
-			if(   !(chain.get(i).getHash().equals(chain.get(i).calculateHash()))   ) 
-			{
-				System.out.println("Chain is not valid");
-				return;
-			}
-			
-			if(  !(chain.get(i).getPreviousHash().equals(chain.get(i-1).calculateHash()))  ) 
-			{
-				System.out.println("Chain is not valid");
-				return;
-			}
-		}
+		Blockchain obj = new Blockchain();
 		
-		System.out.println("Chain is valid.");
+		Block a = new Block("1234sr", new java.util.Date(), "<transactions>");
+		Block b = new Block("4567ty", new java.util.Date(), "<transactions>");
+		Block c = new Block("7890rt", new java.util.Date(), "<transactions>");
+		Block d=  new Block("3456hu", new java.util.Date(), "<transactions>");
+		Block e=  new Block("2345ty", new java.util.Date(), "<transactions>");
 		
+		//adding block to blockchain
+		
+		obj.addBlock(a);
+		obj.addBlock(b);
+		obj.addBlock(c);
+		obj.addBlock(d);
+		obj.addBlock(e);
+		
+		//this is the tampering of previous hash that we have done in the block
+		//obj.getLatestBlock().setPreviousHash("ABCDEFG");
+		
+		obj.displayChain();
+		
+		//obj.isValid();//this checks for the validity of the chain
+
 	}
-	
 	
 }
